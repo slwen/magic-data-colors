@@ -2,37 +2,63 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.Palette {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Color {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  border-radius: 3px;
+  margin: 4px;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.MockChart {
+  margin: 48px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 450px;
+}
+
+.MockChart__bar1,
+.MockChart__bar2,
+.MockChart__bar3 {
+  margin: 0 8px;
+  width: 100%;
+}
+
+.MockChart__bar1 {
+  height: 300px;
+}
+.MockChart__bar2 {
+  height: 400px;
+}
+.MockChart__bar3 {
+  height: 600px;
+}
+
+.MockChart__series1 {
+  height: 30%;
+}
+
+.MockChart__series2 {
+  height: 25%;
+}
+
+.MockChart__series3 {
+  height: 20%;
+}
+
+.MockChart__series4 {
+  height: 15%;
+}
+
+.MockChart__series5 {
+  height: 10%;
+  border-radius: 12px 12px 0 0;
 }
