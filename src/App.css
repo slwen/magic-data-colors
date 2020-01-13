@@ -4,22 +4,26 @@
 
 .Palette {
   display: flex;
+  width: 840px;
+  margin: 0 auto;
 }
 
 .ColorBox {
-  margin: 4px;
+  margin: 0 10px;
 }
 
 .Color {
-  width: 150px;
-  height: 150px;
-  border: 4px solid #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  border-radius: 2px;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #fff;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.25);
+  border-radius: 50%;
   align-items: flex-end;
   justify-content: flex-end;
   font-size: 12px;
   position: relative;
+  text-align: center;
+  margin: 0 auto;
 }
 
 table {
@@ -31,4 +35,52 @@ table {
 table td {
   overflow: hidden;
   padding: 12px 4px 0;
+  width: 250px;
+}
+
+input {
+  font-size: 21px;
+  width: 100px;
+  margin: 32px auto;
+}
+
+.presets {
+  margin: 32px auto 64px;
+  display: flex;
+  width: 288px;
+  flex-wrap: wrap;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.presets__header {
+  width: 100%;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.preset {
+  height: 48px;
+  width: 48px;
+}
+
+.preset:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.containers {
+  display: flex;
+  margin: 64px;
+}
+
+.lightContainer {
+  background: #fff;
+  flex-grow: 1;
+}
+
+.darkContainer {
+  background: #000;
+  flex-grow: 1;
 }
