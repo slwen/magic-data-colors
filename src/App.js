@@ -112,7 +112,7 @@ function App() {
         <div className="hueShift">
           Hue shift
           <div className="hueGradient"></div>
-          <input className="hueShift__slider" type="range" min="1" max="360" step="1" onChange={handleHueShiftChange} value={hueShift} />
+          <input className="hueShift__slider" type="range" min="1" max="360" step="1" onChange={handleHueShiftChange} value={hueShift} /> {hueShift}
         </div>
 
         <div className="presets">
