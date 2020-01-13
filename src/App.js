@@ -139,6 +139,18 @@ function App() {
           <Preset hex="#ffbd58" clickHandler={handlePresetClick} />
           <Preset hex="#ff914c" clickHandler={handlePresetClick} />
         </div>
+
+        <div className="presets">
+          <div className="presets__header">Brand colors:</div>
+          <Preset hex="#00c7cf" clickHandler={handlePresetClick} />
+          <Preset hex="#00b2b7" clickHandler={handlePresetClick} />
+          
+          <Preset hex="#00abf4" clickHandler={handlePresetClick} />
+          <Preset hex="#0092da" clickHandler={handlePresetClick} />
+          
+          <Preset hex="#8a00f1" clickHandler={handlePresetClick} />
+          <Preset hex="#7300d7" clickHandler={handlePresetClick} />
+        </div>
       </div>
       <div className="Palette">{renderGradientColors()}</div>
 
