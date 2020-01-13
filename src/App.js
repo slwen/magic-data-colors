@@ -4,11 +4,10 @@ import "./App.css";
 import MockBarChart from "./MockBarChart"
 import Preset from "./Preset"
 
-function generateEndColor(startColor, hueShiftDiviser = 4) {
+function generateEndColor(startColor, hueShiftVal) {
   const startColorHue = chroma(startColor).get("hsl.h");
   const startColorLightness = chroma(startColor).get("hsl.l");
 
-  const hueShiftVal = 360 / hueShiftDiviser;
   let endHue = startColorHue - hueShiftVal;
 
   let middlingLightness = startColorLightness > 0.2 && startColorLightness < 0.8;
@@ -40,9 +39,14 @@ function App() {
   const [startColor, setStartColor] = useState("#1a73e8");
   const [endColor, setEndColor] = useState("#16050a");
   const [gradientColors, setGradientColors] = useState([]);
+  const [hueShift, setHueShift] = useState(90);
 
   if (!gradientColors.length) {
     setGradientColors(generatePalette(startColor, endColor));
+  }
+  
+  const handleHueShiftChange = e => {
+    setHueShift(e.target.value);
   }
 
   const handleInputChange = e => {
@@ -51,7 +55,7 @@ function App() {
       setStartColor(e.target.value);
       setEndColor(generateEndColor(e.target.value));
       setGradientColors(
-        generatePalette(e.target.value, generateEndColor(e.target.value))
+        generatePalette(e.target.value, generateEndColor(e.target.value, hueShift))
       );
     }
   };
@@ -62,7 +66,7 @@ function App() {
       setStartColor(color);
       setEndColor(generateEndColor(color));
       setGradientColors(
-        generatePalette(color, generateEndColor(color))
+        generatePalette(color, generateEndColor(color, hueShift))
       );
     }
   }
@@ -95,35 +99,46 @@ function App() {
 
   return (
     <div className="App">
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        autoFocus
-      />
-      <div className="presets">
-        <div className="presets__header">Default colors:</div>
-        <Preset hex="#000000" clickHandler={handlePresetClick} />
-        <Preset hex="#555555" clickHandler={handlePresetClick} />
-        <Preset hex="#727272" clickHandler={handlePresetClick} />
-        <Preset hex="#a6a6a6" clickHandler={handlePresetClick} />
-        <Preset hex="#d8d8d8" clickHandler={handlePresetClick} />
-        <Preset hex="#ffffff" clickHandler={handlePresetClick} />
+      <div>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          autoFocus
+        />
+      </div>
+
+      <div style={{margin: "0 auto", width: 600}}>
+        <div className="hueShift">
+          Hue shift
+          <div className="hueGradient"></div>
+          <input className="hueShift__slider" type="range" min="1" max="360" step="1" onChange={handleHueShiftChange} value={hueShift} />
+        </div>
+
+        <div className="presets">
+          <div className="presets__header">Default colors:</div>
+          <Preset hex="#000000" clickHandler={handlePresetClick} />
+          <Preset hex="#555555" clickHandler={handlePresetClick} />
+          <Preset hex="#727272" clickHandler={handlePresetClick} />
+          <Preset hex="#a6a6a6" clickHandler={handlePresetClick} />
+          <Preset hex="#d8d8d8" clickHandler={handlePresetClick} />
+          <Preset hex="#ffffff" clickHandler={handlePresetClick} />
 
 
-        <Preset hex="#fe5657" clickHandler={handlePresetClick} />
-        <Preset hex="#ff66c4" clickHandler={handlePresetClick} />
-        <Preset hex="#ca6be6" clickHandler={handlePresetClick} />
-        <Preset hex="#8c50ff" clickHandler={handlePresetClick} />
-        <Preset hex="#5271ff" clickHandler={handlePresetClick} />
-        <Preset hex="#36b6ff" clickHandler={handlePresetClick} />
+          <Preset hex="#fe5657" clickHandler={handlePresetClick} />
+          <Preset hex="#ff66c4" clickHandler={handlePresetClick} />
+          <Preset hex="#ca6be6" clickHandler={handlePresetClick} />
+          <Preset hex="#8c50ff" clickHandler={handlePresetClick} />
+          <Preset hex="#5271ff" clickHandler={handlePresetClick} />
+          <Preset hex="#36b6ff" clickHandler={handlePresetClick} />
 
-        <Preset hex="#5ae2e6" clickHandler={handlePresetClick} />
-        <Preset hex="#7dd957" clickHandler={handlePresetClick} />
-        <Preset hex="#c9e165" clickHandler={handlePresetClick} />
-        <Preset hex="#ffdd59" clickHandler={handlePresetClick} />
-        <Preset hex="#ffbd58" clickHandler={handlePresetClick} />
-        <Preset hex="#ff914c" clickHandler={handlePresetClick} />
+          <Preset hex="#5ae2e6" clickHandler={handlePresetClick} />
+          <Preset hex="#7dd957" clickHandler={handlePresetClick} />
+          <Preset hex="#c9e165" clickHandler={handlePresetClick} />
+          <Preset hex="#ffdd59" clickHandler={handlePresetClick} />
+          <Preset hex="#ffbd58" clickHandler={handlePresetClick} />
+          <Preset hex="#ff914c" clickHandler={handlePresetClick} />
+        </div>
       </div>
       <div className="Palette">{renderGradientColors()}</div>
 

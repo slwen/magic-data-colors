@@ -84,3 +84,21 @@ input {
   background: #000;
   flex-grow: 1;
 }
+
+.hueShift {
+  position: relative;
+}
+
+.hueShift label:first-child {
+  position: absolute;
+  top: 0;
+}
+
+.hueShift__slider {
+  margin: 0;
+}
+
+.hueGradient {
+  width: 100%;
+  height: 4px;
+}
