@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import chroma from "chroma-js";
 import "./App.css";
+import MockBarChart from "./MockBarChart"
 
-function generateEndColor(startColor, hueShiftDiviser = 5) {
+function generateEndColor(startColor, hueShiftDiviser = 4) {
   const startColorHue = chroma(startColor).get("hsl.h");
   const startColorLightness = chroma(startColor).get("hsl.l");
 
@@ -15,14 +16,14 @@ function generateEndColor(startColor, hueShiftDiviser = 5) {
   let middlingLightness = false;
   let endLightness = 0;
 
-  if (startColorLightness > 0.3 && startColorLightness < 0.7) {
+  if (startColorLightness > 0.1 && startColorLightness < 0.9) {
     middlingLightness = true;
   }
 
   if (middlingLightness && startColorLightness > 0.5) {
-    endLightness = 0.25;
+    endLightness = 0.05;
   } else if (middlingLightness && startColorLightness < 0.5) {
-    endLightness = 0.85;
+    endLightness = 0.9;
   } else {
     endLightness = 1 - startColorLightness;
   }
@@ -37,7 +38,7 @@ function generateEndColor(startColor, hueShiftDiviser = 5) {
 }
 
 function generatePalette(startColor, endColor) {
-  return chroma.scale([startColor, endColor]).mode('lab').colors(5);;
+  return chroma.scale([startColor, endColor]).mode('lab').colors(5);
 }
 
 function App() {
@@ -66,24 +67,25 @@ function App() {
       gradientColors.length &&
       gradientColors.map(color => {
         return (
-          <div className="ColorBox">
+          <div className="ColorBox" key={`gradient-${color}`}>
             <div
-              key={`gradient-${color}`}
               className="Color GradientColor"
               style={{ backgroundColor: color }}
             ></div>
             <table>
-              <tr>
-                <td>{color}</td>
-              </tr>
-              <tr>
-                <td>{chroma(color).css('hsl')}</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>{color}</td>
+                </tr>
+                <tr>
+                  <td>{chroma(color).css('hsl')}</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         );
       })
-    );
+    )
   };
 
   return (
@@ -94,77 +96,8 @@ function App() {
         onChange={handleInputChange}
         autoFocus
       />
-
       <div className="Palette">{renderGradientColors()}</div>
-
-      <div className="MockChart">
-        <div className="MockChart__bar1">
-          <div
-            className="MockChart__series5"
-            style={{ backgroundColor: gradientColors[4] }}
-          ></div>
-          <div
-            className="MockChart__series4"
-            style={{ backgroundColor: gradientColors[3] }}
-          ></div>
-          <div
-            className="MockChart__series3"
-            style={{ backgroundColor: gradientColors[2] }}
-          ></div>
-          <div
-            className="MockChart__series2"
-            style={{ backgroundColor: gradientColors[1] }}
-          ></div>
-          <div
-            className="MockChart__series1"
-            style={{ backgroundColor: gradientColors[0] }}
-          ></div>
-        </div>
-        <div className="MockChart__bar2">
-          <div
-            className="MockChart__series5"
-            style={{ backgroundColor: gradientColors[4] }}
-          ></div>
-          <div
-            className="MockChart__series4"
-            style={{ backgroundColor: gradientColors[3] }}
-          ></div>
-          <div
-            className="MockChart__series3"
-            style={{ backgroundColor: gradientColors[2] }}
-          ></div>
-          <div
-            className="MockChart__series2"
-            style={{ backgroundColor: gradientColors[1] }}
-          ></div>
-          <div
-            className="MockChart__series1"
-            style={{ backgroundColor: gradientColors[0] }}
-          ></div>
-        </div>
-        <div className="MockChart__bar3">
-          <div
-            className="MockChart__series5"
-            style={{ backgroundColor: gradientColors[4] }}
-          ></div>
-          <div
-            className="MockChart__series4"
-            style={{ backgroundColor: gradientColors[3] }}
-          ></div>
-          <div
-            className="MockChart__series3"
-            style={{ backgroundColor: gradientColors[2] }}
-          ></div>
-          <div
-            className="MockChart__series2"
-            style={{ backgroundColor: gradientColors[1] }}
-          ></div>
-          <div
-            className="MockChart__series1"
-            style={{ backgroundColor: gradientColors[0] }}
-          ></div>
-        </div>
-      </div>
+      <MockBarChart colors={gradientColors} />
     </div>
   );
 }

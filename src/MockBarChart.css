@@ -1,0 +1,45 @@
+.MockChart {
+  margin: 48px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 450px;
+}
+
+.MockChart__bar1,
+.MockChart__bar2,
+.MockChart__bar3 {
+  margin: 0 8px;
+  width: 100%;
+}
+
+.MockChart__bar1 {
+  height: 300px;
+}
+.MockChart__bar2 {
+  height: 400px;
+}
+.MockChart__bar3 {
+  height: 600px;
+}
+
+.MockChart__series1 {
+  height: 30%;
+}
+
+.MockChart__series2 {
+  height: 25%;
+}
+
+.MockChart__series3 {
+  height: 20%;
+}
+
+.MockChart__series4 {
+  height: 15%;
+}
+
+.MockChart__series5 {
+  height: 10%;
+  border-radius: 12px 12px 0 0;
+}
