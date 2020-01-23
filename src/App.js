@@ -34,12 +34,52 @@ function generatePalette(startColor, endColor) {
   return chroma.scale([startColor, endColor]).mode('lab').colors(5);
 }
 
+function generateNextColor(color, huesBeforeLightShift = 10, lightShift = false) {
+  const hueShift = 360 / huesBeforeLightShift;
+
+  const startColorHue = chroma(color).get("hsl.h");
+  const startColorLightness = chroma(color).get("hsl.l");
+  const endHue = startColorHue - hueShift;
+
+  let transformedColor = color
+
+  // Basically, if it's a light color, make it darker, or vice versa
+  if (lightShift && startColorLightness < 0.5) {
+    transformedColor = chroma(color)
+      .set("hsl.l", startColorLightness+0.3)
+      .hex();
+  } else if (lightShift) {
+    transformedColor = chroma(color)
+    .set("hsl.l", startColorLightness-0.3)
+    .hex();
+  }
+
+  
+
+  return chroma(transformedColor).set("hsl.h", endHue).hex();
+}
+
+const generateMultiHues = (seedColor = "#f30") => {
+  const arr = Array.from(Array(16).keys()) // How many total colours to generate
+
+  return arr.reduce((acc, cur, i) => {
+    const huesBeforeLightShift = 8 // How many hues before a light shift is needed
+    const lightShift = i>1 && i%huesBeforeLightShift === 1 // Boolean trigger if lightshift required
+
+    // console.log(i, i%huesBeforeLightShift)
+
+    if (!acc) return [chroma(seedColor).hex()]
+    return [...acc, generateNextColor(acc[i-2], huesBeforeLightShift, lightShift)]
+  }) 
+}
+
 function App() {
   const [inputValue, setInputValue] = useState("#1a73e8");
   const [startColor, setStartColor] = useState("#1a73e8");
   const [endColor, setEndColor] = useState("#16050a");
   const [gradientColors, setGradientColors] = useState([]);
   const [hueShift, setHueShift] = useState(90);
+  const [palette, setPalette] = useState([]);
 
   if (!gradientColors.length) {
     setGradientColors(generatePalette(startColor, endColor));
@@ -54,6 +94,7 @@ function App() {
     if (e.target.value.length > 3) {
       setStartColor(e.target.value);
       setEndColor(generateEndColor(e.target.value));
+      setPalette(generateMultiHues(e.target.value));
       setGradientColors(
         generatePalette(e.target.value, generateEndColor(e.target.value, hueShift))
       );
@@ -65,10 +106,34 @@ function App() {
     if (color.length > 3) {
       setStartColor(color);
       setEndColor(generateEndColor(color));
+      setPalette(generateMultiHues(color));
       setGradientColors(
         generatePalette(color, generateEndColor(color, hueShift))
       );
     }
+  }
+
+  const renderMultiHueColorPalette = () => {
+    return palette.map((color,i) => {
+      return (
+        <div className="ColorBox" key={`gradient-${color}-${i}`}>
+          <div
+            className="Color GradientColor"
+            style={{ backgroundColor: color }}
+          ></div>
+          <table>
+            <tbody>
+              <tr>
+                <td>{color}</td>
+              </tr>
+              <tr>
+                <td>{chroma(color).css('hsl')}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      );
+    })
   }
 
   const renderGradientColors = () => {
@@ -153,6 +218,7 @@ function App() {
         </div>
       </div>
       <div className="Palette">{renderGradientColors()}</div>
+      <div className="Palette">{renderMultiHueColorPalette()}</div>
 
       <div className="containers">
         <div className="lightContainer">
@@ -161,6 +227,9 @@ function App() {
         <div className="darkContainer">
           <MockBarChart colors={gradientColors} />
         </div>
+        { palette && <div className="lightContainer">
+          <MockBarChart colors={palette} />
+        </div> }
       </div>
       
     </div>

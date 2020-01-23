@@ -45,7 +45,7 @@ function MultiHuePalette() {
   };
 
   const generateRandomColors = (seedColor = startColor) => {
-    const arr = Array.from(Array(30).keys())
+    const arr = Array.from(Array(12).keys())
 
     return arr.reduce((acc, cur, i) => {
       const huesBeforeLightShift = 5 // How many hues before a light shift is needed
