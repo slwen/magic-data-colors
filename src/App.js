@@ -34,7 +34,7 @@ function generatePalette(startColor, endColor) {
   return chroma.scale([startColor, endColor]).mode('lab').colors(5);
 }
 
-function generateNextColor(color, huesBeforeLightShift = 10, lightShift = false) {
+function generateNextColor(color, huesBeforeLightShift = 12, lightShift = false) {
   const hueShift = 360 / huesBeforeLightShift;
 
   const startColorHue = chroma(color).get("hsl.h");
@@ -46,25 +46,34 @@ function generateNextColor(color, huesBeforeLightShift = 10, lightShift = false)
   // Basically, if it's a light color, make it darker, or vice versa
   if (lightShift && startColorLightness < 0.5) {
     transformedColor = chroma(color)
-      .set("hsl.l", startColorLightness+0.3)
+      .set("hsl.l", startColorLightness*1.5)
       .hex();
   } else if (lightShift) {
     transformedColor = chroma(color)
-    .set("hsl.l", startColorLightness-0.3)
+    .set("hsl.l", startColorLightness*0.33)
     .hex();
   }
-
-  
 
   return chroma(transformedColor).set("hsl.h", endHue).hex();
 }
 
 const generateMultiHues = (seedColor = "#f30") => {
-  const arr = Array.from(Array(16).keys()) // How many total colours to generate
+  const arr = Array.from(Array(36).keys()) // How many total colours to generate
 
   return arr.reduce((acc, cur, i) => {
-    const huesBeforeLightShift = 8 // How many hues before a light shift is needed
-    const lightShift = i>1 && i%huesBeforeLightShift === 1 // Boolean trigger if lightshift required
+    /* 
+     * How many hues before a light shift is needed
+     * 12 is a bit of a magic number since it will ensure analgous colour palette.
+     * See https://chromatichq.com/blog/understanding-and-using-hsl-your-css
+     */
+    const huesBeforeLightShift = 12
+
+    /*
+     * Boolean trigger if lightshift required.
+     * For example, after 12 hues are generated, hue 13 will be the same as hue 1;
+     * To create some differentiation, the lightness value should shift too.
+     */ 
+    const lightShift = i>1 && i%huesBeforeLightShift === 1
 
     // console.log(i, i%huesBeforeLightShift)
 
